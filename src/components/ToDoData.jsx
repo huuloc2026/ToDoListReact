@@ -1,5 +1,6 @@
-import { MdDoneOutline } from "react-icons/md";
+import { MdCheckCircleOutline } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
+import { IoMdRadioButtonOn } from "react-icons/io";
 const ToDoData = (props) => {
   /// props la object
   const {
@@ -21,7 +22,7 @@ const ToDoData = (props) => {
             className="flex justify-between items-center m-2 gap-4 flex-wrap"
           >
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+              <IoMdRadioButtonOn />
               <li
                 className={`list-none  ${
                   isCompleted ? "line-through text-red-500" : ""
@@ -32,7 +33,7 @@ const ToDoData = (props) => {
             </div>
             <div className="flex justify-between gap-10 items-center ">
               {/* //button Done */}
-              <MdDoneOutline
+              <MdCheckCircleOutline
                 className=" fill-green-500 hover:fill-green-950"
                 onClick={() => handleDoneTask(item.id)}
               />
