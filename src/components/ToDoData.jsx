@@ -1,21 +1,51 @@
+import { MdDoneOutline } from "react-icons/md";
+import { LuPencil } from "react-icons/lu";
 const ToDoData = (props) => {
   /// props la object
-  const { toDoList, handleDelete } = props;
+  const {
+    toDoList,
+    handleDelete,
+    completedTasks,
+    handleUpdate,
+    handleDoneTask,
+  } = props;
 
   return (
-    <ul className="">
+    <ul className="space-y-2">
       {toDoList.map((item) => {
-        return (
-          <div key={item.id} className="flex justify-start m-2 gap-10">
-            <span className="w-2 h-2 mt-2 bg-red-500 rounded-full"></span>
-            <li>{item.job}</li>
+        const isCompleted = completedTasks.includes(item.id);
 
-            <button
-              onClick={() => handleDelete(item.id)}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 border border-red-700 rounded "
-            >
-              Delete
-            </button>
+        return (
+          <div
+            key={item.id}
+            className="flex justify-between items-center m-2 gap-4 flex-wrap"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+              <li
+                className={`list-none  ${
+                  isCompleted ? "line-through text-red-500" : ""
+                }`}
+              >
+                {item.job}
+              </li>
+            </div>
+            <div className="flex justify-between gap-10 items-center ">
+              {/* //button Done */}
+              <MdDoneOutline
+                className=" fill-green-500 hover:fill-green-950"
+                onClick={() => handleDoneTask(item.id)}
+              />
+              {/* button update */}
+              <LuPencil onClick={() => handleUpdate(item.id)} />
+              <button
+                onClick={() => handleDelete(item.id)}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 border border-red-700 rounded"
+              >
+                Delete
+              </button>
+            </div>
+            {/* //button Delete */}
           </div>
         );
       })}
