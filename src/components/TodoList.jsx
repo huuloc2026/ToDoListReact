@@ -11,7 +11,7 @@ const TodoList = () => {
   const addNewToDo = (nameTodo) => {
     const newtoDo = {
       id: random(1, 1000000),
-      name: nameTodo,
+      job: nameTodo,
     };
     setLisTodoList((prev) => [...prev, newtoDo]);
   };
