@@ -1,19 +1,15 @@
 const ToDoData = (props) => {
   /// props la object
-  const { todoList } = props;
-  // console.log(todoList);
-
+  // console.log(listJobData);
+  // const { toDoList } = props;
+  console.log(props.toDoList);
   return (
-    <div className="">
-      {todoList.map((Item) => {
-        return (
-          <div key={Item.id} className="flex justify-between">
-            <li>{Item.job}</li>
-            <button className="border mx-2"> delete</button>
-          </div>
-        );
-      })}
-    </div>
+    <ul className="">
+      {props.toDoList.map((item) => (
+        <li key={item.id}>{item.job}</li>
+      ))}
+      <div>{JSON.stringify(props.toDoList)}</div>
+    </ul>
   );
 };
 
