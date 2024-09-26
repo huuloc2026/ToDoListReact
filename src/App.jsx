@@ -1,11 +1,20 @@
 import React from "react";
-import TodoList from "./components/TodoList";
+
+import { Header } from "./layouts/Header";
+import Footer from "./layouts/Footer";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   return (
-    <div className="container">
-      <TodoList></TodoList>
-    </div>
+    <>
+      <div className="min-h-screen flex flex-col">
+        <Header></Header>
+        <main className="flex-grow">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 

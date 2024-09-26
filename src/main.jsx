@@ -3,30 +3,42 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import Login from "./pages/Login.jsx";
-import Products from "./pages/Products.jsx";
+import Books from "./pages/Books.jsx";
 import Register from "./pages/Register.jsx";
 import User from "./pages/User.jsx";
+import ErrorPage from "./ErrorPage.jsx";
+
 import "./index.css";
+import TodoList from "./components/TodoList.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <TodoList /> },
+      {
+        path: "/Books",
+        element: <Books />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/user",
+        element: <User />,
+        errorElement: <ErrorPage />,
+      },
+    ],
   },
   {
     path: "/login",
     element: <Login />,
+    errorElement: <ErrorPage />,
   },
-  {
-    path: "/products",
-    element: <Products />,
-  },
+
   {
     path: "/register",
     element: <Register />,
-  },
-  {
-    path: "/user",
-    element: <User />,
+    errorElement: <ErrorPage />,
   },
 ]);
 createRoot(document.getElementById("root")).render(
