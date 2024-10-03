@@ -5,7 +5,7 @@ export const Header = () => {
   return (
     <div>
       <header>
-        <div class="flex items-center justify-center gap-10 w-full">
+        <div className="flex items-center justify-center gap-10 w-full">
           <NavLink to="./">
             <img src={logo} className="w-[50px] h-[50px]" alt="logo" />
           </NavLink>
