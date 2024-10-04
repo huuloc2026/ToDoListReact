@@ -1,57 +1,92 @@
 import React, { useState } from "react";
-import { Button, Form, Input } from "antd";
-import axios from "axios";
-const UserForm = () => {
+import { Button, Modal, Input, notification } from "antd";
+import apiService from "/src/services/apiService.js";
+
+const UserForm = (props) => {
+  const { loadUser } = props;
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleSubmitbtn = async () => {
+    const res = await apiService.createUserAPI(
+      fullName,
+      email,
+      password,
+      phone
+    );
+    if (res.data) {
+      notification.success({
+        message: "Create User",
+        description: "Success create new user!",
+      });
+      handleClearModal();
+      await loadUser();
+    } else {
+      notification.error({
+        message: "Error User",
+        description: JSON.stringify(res.message),
+      });
+    }
+  };
 
-  const handleClickbtn = () => {
-    const URL_Backend = "http://localhost:8080/api/v1/user";
-    const data = {
-      fullName: fullName,
-      email: email,
-      password: password,
-      phone: password,
-    };
-
-    axios.post(URL_Backend, data);
+  const handleClearModal = () => {
+    setIsModalOpen(false);
+    setFullName("");
+    setEmail("");
+    setPassword("");
+    setPhone("");
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className=" space-y-4">
-        <Input
-          placeholder="Full Name"
-          value={fullName}
-          onChange={(event) => setFullName(event.target.value)}
-        />
-
-        <Input
-          placeholder="Email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-
-        <Input.Password
-          placeholder="Password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-
-        <Input
-          placeholder="Phone"
-          value={phone}
-          onChange={(event) => setPhone(event.target.value)}
-        />
-
-        <div>
-          <Button type="primary" onClick={handleClickbtn} htmlType="submit">
-            Submit
-          </Button>
-        </div>
+    <div className="flex mx-4 max-w-full ">
+      <div className="flex justify-between w-full">
+        <span>Tables User </span>
+        <Button
+          type="primary"
+          onClick={() => setIsModalOpen(true)}
+          htmlType="submit"
+        >
+          Create User
+        </Button>
       </div>
+
+      <Modal
+        title="Create User"
+        open={isModalOpen}
+        onOk={() => handleSubmitbtn()}
+        onCancel={() => handleClearModal()}
+        maskClosable={false}
+        okText="Submit"
+      >
+        <div className="gap-y-10">
+          <span>Full Name:</span>
+          <Input
+            placeholder="Full Name"
+            value={fullName}
+            onChange={(event) => setFullName(event.target.value)}
+          />
+          <span>Email:</span>
+          <Input
+            placeholder="Email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <span>Password:</span>
+          <Input.Password
+            placeholder="Password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <span>Phone Number:</span>
+          <Input
+            placeholder="Phone"
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
+          />
+        </div>
+      </Modal>
     </div>
   );
 };

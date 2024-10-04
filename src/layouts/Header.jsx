@@ -1,40 +1,45 @@
-import React from "react";
 import logo from "../assets/logo copy.png";
-import { NavLink } from "react-router-dom";
+import { HomeOutlined, ProductOutlined, UserOutlined } from "@ant-design/icons";
+import { Menu } from "antd";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 export const Header = () => {
+  const items = [
+    {
+      label: <Link to={"/"}>Logo</Link>,
+      key: "logo",
+    },
+    {
+      label: <Link to={"/"}>Home</Link>,
+      key: "homepage",
+      icon: <HomeOutlined />,
+    },
+    {
+      label: <Link to={"/user"}>Users</Link>,
+      key: "users",
+      icon: <UserOutlined />,
+    },
+    {
+      label: <Link to={"/Books"}>Books</Link>,
+      key: "books",
+      icon: <ProductOutlined />,
+    },
+  ];
+  const [current, setCurrent] = useState("homepage");
+  const onClick = (e) => {
+    console.log("click ", e);
+    setCurrent(e.key);
+  };
   return (
     <div>
-      <header>
-        <div className="flex items-center justify-center gap-10 w-full">
-          <NavLink to="./">
-            <img src={logo} className="w-[50px] h-[50px]" alt="logo" />
-          </NavLink>
-          <NavLink
-            to="./"
-            className="focus:outline-1 focus:bg-green-500 p-1   "
-          >
-            Homepage
-          </NavLink>
-          <NavLink
-            to="./User"
-            className="focus:outline-1 focus:bg-green-500 p-1   "
-          >
-            User
-          </NavLink>
-          <NavLink
-            to="./Books"
-            className="focus:outline-1 focus:bg-green-500 p-1  "
-          >
-            Books
-          </NavLink>
-          <button className="border">
-            <NavLink to="./Login">Login</NavLink>
-          </button>
-          <button className="border">
-            <NavLink to="./register">Register</NavLink>
-          </button>
-        </div>
-      </header>
+      <Menu
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+      />
+      ;
     </div>
   );
 };

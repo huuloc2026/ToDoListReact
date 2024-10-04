@@ -1,80 +1,107 @@
-import React from "react";
-import { Space, Table, Tag } from "antd";
-const UserTable = () => {
+import React, { useState } from "react";
+import { Table, message, Popconfirm } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import UserUpdate from "./UserUpdate";
+import UserViewDetail from "./UserViewDetail";
+
+import apiService from "../../services/apiService";
+
+const UserTable = (props) => {
+  const { dataUser, loadUser } = props;
+  const [IsModalUpdate, setIsModalUpdate] = useState(false);
+  const [userDataUpdate, setUserDataUpdate] = useState(null);
+
+  const [openView, setOpenView] = useState(false);
+  const [dataViewDetail, setDataViewDetail] = useState(null);
+
+  const [idDelete, setIdDelete] = useState(null);
+
+  const cancel = (e) => {
+    message.error("Click on No");
+  };
+  const handleDelete = async (ID) => {
+    await apiService.DeleteUserAPI(ID);
+    message.success("Successful delelete user");
+    await loadUser();
+  };
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
+      title: "ID",
+      dataIndex: "_id",
+      render: (_, record) => (
+        <a
+          onClick={() => {
+            setDataViewDetail(record);
+            setOpenView(true);
+          }}
+        >
+          {record._id}
+        </a>
       ),
+    },
+    {
+      title: "Full Name",
+      dataIndex: "fullName",
+      key: "fullName",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "Email",
+    },
+    {
+      title: "Phone",
+      dataIndex: "phone",
+      key: "Phone",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "Email",
     },
     {
       title: "Action",
+
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
+        <div className="flex gap-5 ">
+          <EditOutlined
+            onClick={() => {
+              setUserDataUpdate(record);
+              return setIsModalUpdate(true);
+            }}
+            className="text-xl cursor-pointer text-yellow-400 hover:text-yellow-500"
+          />
+          <Popconfirm
+            title="Delete the user"
+            description="Are you sure to delete this user?"
+            onConfirm={() => handleDelete(record._id)}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <DeleteOutlined className="text-xl cursor-pointer text-red-400 hover:text-red-500" />{" "}
+          </Popconfirm>
+        </div>
       ),
     },
   ];
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
+
   return (
-    <div className="container">
-      <Table columns={columns} dataSource={data} />
+    <div className="container m-4 max-w-full">
+      <Table rowKey={"_id"} columns={columns} dataSource={dataUser} />
+      <UserUpdate
+        userDataUpdate={userDataUpdate}
+        setUserDataUpdate={setUserDataUpdate}
+        IsModalUpdate={IsModalUpdate}
+        setIsModalUpdate={setIsModalUpdate}
+      />
+      <UserViewDetail
+        dataViewDetail={dataViewDetail}
+        setDataViewDetail={setDataViewDetail}
+        openView={openView}
+        setOpenView={setOpenView}
+      />
     </div>
   );
 };
