@@ -6,7 +6,7 @@ import Login from "./pages/Login.jsx";
 import Books from "./pages/Books.jsx";
 import Register from "./pages/Register.jsx";
 import User from "./pages/User.jsx";
-import ErrorPage from "./ErrorPage.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
 
 import "./index.css";
 import TodoList from "./components/TodoList.jsx";

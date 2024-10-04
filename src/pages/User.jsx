@@ -5,17 +5,33 @@ import apiService from "../services/apiService";
 
 const User = () => {
   const [dataUser, setDataUser] = useState([]);
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
   useEffect(() => {
     loadUser();
   }, []);
   const loadUser = async () => {
-    const res = await apiService.GetAllUserAPI();
-    setDataUser(res.data);
+    const res = await apiService.GetAllUserAPI(current, pageSize);
+    if (res.data) {
+      setDataUser(res.data.result);
+      setCurrent(res.data.meta.current);
+      setPageSize(res.data.meta.pageSize);
+      setTotal(res.data.meta.total);
+    }
   };
   return (
     <div>
       <UserForm loadUser={loadUser}></UserForm>
-      <UserTable dataUser={dataUser} loadUser={loadUser}></UserTable>
+      <UserTable
+        current={current}
+        setCurrent={setCurrent}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        total={total}
+        dataUser={dataUser}
+        loadUser={loadUser}
+      ></UserTable>
     </div>
   );
 };

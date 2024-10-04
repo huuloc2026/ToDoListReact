@@ -7,14 +7,19 @@ import UserViewDetail from "./UserViewDetail";
 import apiService from "../../services/apiService";
 
 const UserTable = (props) => {
-  const { dataUser, loadUser } = props;
+  const {
+    current,
+    setCurrent,
+    pageSize,
+    setPageSize,
+    total,
+    dataUser,
+    loadUser,
+  } = props;
   const [IsModalUpdate, setIsModalUpdate] = useState(false);
   const [userDataUpdate, setUserDataUpdate] = useState(null);
-
   const [openView, setOpenView] = useState(false);
   const [dataViewDetail, setDataViewDetail] = useState(null);
-
-  const [idDelete, setIdDelete] = useState(null);
 
   const cancel = (e) => {
     message.error("Click on No");
@@ -25,6 +30,14 @@ const UserTable = (props) => {
     await loadUser();
   };
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "stt",
+      key: "stt",
+      render: (_, record, index) => {
+        return <>{index + 1}</>;
+      },
+    },
     {
       title: "ID",
       dataIndex: "_id",
@@ -86,10 +99,34 @@ const UserTable = (props) => {
       ),
     },
   ];
+  const handleOnChangeTable = (pagination) => {
+    setCurrent(pagination.current);
+    console.log(current);
+    setPageSize(pagination.pageSize);
+    console.log(pageSize);
+  };
 
   return (
-    <div className="container m-4 max-w-full">
-      <Table rowKey={"_id"} columns={columns} dataSource={dataUser} />
+    <div className=" m-4 justify-center max-w-full ">
+      <Table
+        pagination={{
+          current: current,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          total: total,
+          showTotal: (total, range) => {
+            return (
+              <div>
+                {range[0]}-{range[1]}/ {total} rows
+              </div>
+            );
+          },
+        }}
+        rowKey={"_id"}
+        columns={columns}
+        dataSource={dataUser}
+        onChange={handleOnChangeTable}
+      />
       <UserUpdate
         userDataUpdate={userDataUpdate}
         setUserDataUpdate={setUserDataUpdate}
@@ -97,6 +134,7 @@ const UserTable = (props) => {
         setIsModalUpdate={setIsModalUpdate}
       />
       <UserViewDetail
+        loadUser={loadUser}
         dataViewDetail={dataViewDetail}
         setDataViewDetail={setDataViewDetail}
         openView={openView}
