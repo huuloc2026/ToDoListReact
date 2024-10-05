@@ -6,11 +6,11 @@ import apiService from "../services/apiService";
 const User = () => {
   const [dataUser, setDataUser] = useState([]);
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(0);
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [current, pageSize]);
   const loadUser = async () => {
     const res = await apiService.GetAllUserAPI(current, pageSize);
     if (res.data) {
@@ -20,6 +20,7 @@ const User = () => {
       setTotal(res.data.meta.total);
     }
   };
+
   return (
     <div>
       <UserForm loadUser={loadUser}></UserForm>

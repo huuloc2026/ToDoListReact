@@ -35,7 +35,7 @@ const UserTable = (props) => {
       dataIndex: "stt",
       key: "stt",
       render: (_, record, index) => {
-        return <>{index + 1}</>;
+        return <>{index + 1 + (current - 1) * pageSize}</>;
       },
     },
     {
@@ -100,13 +100,17 @@ const UserTable = (props) => {
     },
   ];
   const handleOnChangeTable = (pagination) => {
-    setCurrent(pagination.current);
-    console.log(current);
-    setPageSize(pagination.pageSize);
-    console.log(pageSize);
+    if (pagination && pagination !== pagination.current)
+      if (+pagination.current !== +current) {
+        setCurrent(+pagination.current);
+      }
+    if (pagination && pagination !== pagination.pageSize)
+      if (+pagination.pageSize !== +pageSize) {
+        setPageSize(+pagination.pageSize);
+      }
   };
 
-  return (
+  return (  
     <div className=" m-4 justify-center max-w-full ">
       <Table
         pagination={{

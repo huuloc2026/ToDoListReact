@@ -1,7 +1,114 @@
 import React from "react";
-
+import { Button, Checkbox, Form, Input } from "antd";
 const Register = () => {
-  return <div>Register</div>;
+  const [form] = Form.useForm();
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+  return (
+    <div className="flex justify-center items-center mt-[200px]">
+      <Form
+        form={form}
+        name="basic"
+        labelCol={{
+          span: 10,
+        }}
+        wrapperCol={{
+          span: 20,
+        }}
+        style={{
+          maxWidth: 800,
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "Please input your username!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your email!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Phone Number: "
+          name="phone"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Phone Number!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="remember"
+          valuePropName="checked"
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Button
+            type="primary"
+            // onClick={() => form.submit()}
+            htmlType="submit"
+          >
+            Regiser
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
 };
 
 export default Register;
