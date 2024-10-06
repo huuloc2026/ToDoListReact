@@ -1,5 +1,13 @@
 import logo from "../assets/logo copy.png";
-import { HomeOutlined, ProductOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  AliwangwangOutlined,
+  HomeOutlined,
+  LoginOutlined,
+  ProductOutlined,
+  ScanOutlined,
+  SmileTwoTone,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -28,16 +36,38 @@ export const Header = () => {
       key: "books",
       icon: <ProductOutlined />,
     },
-    {
-      label: <Link to={"/Login"}>Login</Link>,
-      key: "login",
-      icon: <ProductOutlined />,
-    },
-    {
-      label: <Link to={"/Register"}>Register</Link>,
-      key: "register",
-      icon: <ProductOutlined />,
-    },
+
+    ...(!user.id
+      ? [
+          {
+            label: <Link to={"/Register"}>Register</Link>,
+            key: "register",
+            icon: <ScanOutlined />,
+          },
+          {
+            label: <Link to={"/Login"}>Login</Link>,
+            key: "login",
+            icon: <AliwangwangOutlined />,
+          },
+        ]
+      : []),
+    ,
+    ...(user.id
+      ? [
+          {
+            label: `Welcome ${user.fullName}`,
+            key: "welcome",
+            icon: <SmileTwoTone />,
+            children: [
+              {
+                label: "Log out",
+                key: "logout",
+                icon: <LoginOutlined />,
+              },
+            ],
+          },
+        ]
+      : []),
   ];
   const [current, setCurrent] = useState("homepage");
   const onClick = (e) => {

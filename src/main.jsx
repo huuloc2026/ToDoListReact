@@ -12,6 +12,7 @@ import "./index.css";
 import TodoList from "./components/TodoList.jsx";
 import { AuthWrapper } from "./components/context/Auth.jsx";
 import { Index } from "./components/testhook/Index.jsx";
+import PrivateRoute from "./pages/private.route.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,7 +22,11 @@ const router = createBrowserRouter([
       { index: true, element: <TodoList /> },
       {
         path: "/Books",
-        element: <Books />,
+        element: (
+          <PrivateRoute>
+            <Books />
+          </PrivateRoute>
+        ),
         errorElement: <ErrorPage />,
       },
       {
@@ -49,9 +54,9 @@ const router = createBrowserRouter([
   },
 ]);
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <AuthWrapper>
-      <RouterProvider router={router} />
-    </AuthWrapper>
-  </StrictMode>
+  // <StrictMode>
+  <AuthWrapper>
+    <RouterProvider router={router} />
+  </AuthWrapper>
+  // </StrictMode>
 );
