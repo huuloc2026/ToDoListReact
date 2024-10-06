@@ -1,26 +1,48 @@
 import React from "react";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, notification } from "antd";
+import apiService from "../services/apiService";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { HomeOutlined } from "@ant-design/icons";
 const Register = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
+    const result = await apiService.RegisterUserAPI(
+      values.fullName,
+      values.password,
+      values.email,
+      values.phone
+    );
+    if (result.data) {
+      notification.success({
+        message: "Resigter",
+        description: "Success Resigter New User!!",
+      });
+      navigate("/login");
+    } else {
+      notification.error({
+        message: "Error Register !!",
+        description: JSON.stringify(result.message),
+      });
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <div className="flex justify-center items-center mt-[200px]">
+    <div className="flex justify-center w-screen items-center mt-[200px]">
       <Form
         form={form}
         name="basic"
         labelCol={{
-          span: 10,
+          span: 24,
         }}
         wrapperCol={{
-          span: 20,
+          span: 100,
         }}
         style={{
-          maxWidth: 800,
+          maxWidth: 1600,
         }}
         initialValues={{
           remember: true,
@@ -30,8 +52,8 @@ const Register = () => {
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="Full Name"
+          name="fullName"
           rules={[
             {
               required: true,
@@ -82,31 +104,24 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item
-          name="remember"
-          valuePropName="checked"
           wrapperCol={{
-            offset: 8,
-            span: 16,
+            offset: 0,
+            span: 12,
           }}
         >
-          <Checkbox>Remember me</Checkbox>
+          <div className="flex justify-between">
+            <Button type="primary" onClick={() => form.submit()}>
+              Regiser
+            </Button>
+            <Button type="dashed">
+              <Link to="/login">Already Account!</Link>
+            </Button>
+            <Button type="primary">
+              <Link to="/">Go to homepage</Link>
+            </Button>
+          </div>
         </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button
-            type="primary"
-            // onClick={() => form.submit()}
-            htmlType="submit"
-          >
-            Regiser
-          </Button>
-        </Form.Item>
-      </Form>
+      </Form>{" "}
     </div>
   );
 };

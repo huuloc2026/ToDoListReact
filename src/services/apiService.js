@@ -54,4 +54,27 @@ export default {
     };
     return axios.put(URL_Backend, data);
   },
+
+  RegisterUserAPI: (fullName, password, email, phone) => {
+    const URL_Backend = "/api/v1/user/register";
+
+    const data = {
+      fullName: fullName,
+      password: password,
+      email: email,
+      phone: phone,
+    };
+    return axios.post(URL_Backend, data);
+  },
+
+  LoginUserAPI: (email, password) => {
+    const URL_Backend = "/api/v1/auth/login";
+
+    const data = {
+      username: email,
+      password: password,
+      // delay: 2000,
+    };
+    return axios.post(URL_Backend, data);
+  },
 };

@@ -10,6 +10,8 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 
 import "./index.css";
 import TodoList from "./components/TodoList.jsx";
+import { AuthWrapper } from "./components/context/Auth.jsx";
+import { Index } from "./components/testhook/Index.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,9 +42,16 @@ const router = createBrowserRouter([
     element: <Register />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/test",
+    element: <Index />,
+    errorElement: <ErrorPage />,
+  },
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthWrapper>
+      <RouterProvider router={router} />
+    </AuthWrapper>
   </StrictMode>
 );

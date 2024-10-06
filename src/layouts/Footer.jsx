@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-red-800 flex-grow font-[sans-serif]  w-screen">
-        <div className="flex justify-center items-center">
+      <footer className="bg-red-800 flex justify-center font-[sans-serif] m ">
+        <div className="flex justify-center items-center gap-3 p-2">
           <Link to="./">
-            <img src={logo} className="w-[50px] h-[50px]" alt="logo" />
+            <img src={logo} className="w-[30px] h-[30px]" alt="logo" />
           </Link>
           <p className="text-white text-sm">
             © The Virtouso. All rights reserved.
