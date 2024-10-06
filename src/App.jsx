@@ -28,7 +28,6 @@ const App = () => {
     const res = await apiService.getAccountAPI();
     if (res.data) {
       setUser(res.data.user);
-      console.log(res.data);
     }
     setIsLoading(false);
   };
@@ -48,7 +47,7 @@ const App = () => {
       {isLoading ? (
         <div style={contentStyle}>
           <Flex gap="middle" vertical>
-            <Spin tip="Loading" size="large" />
+            <Spin size="large" />
           </Flex>
         </div>
       ) : (

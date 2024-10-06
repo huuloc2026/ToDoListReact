@@ -77,6 +77,11 @@ export default {
     };
     return axios.post(URL_Backend, data);
   },
+  LogoutUserAPI: () => {
+    const URL_Backend = "/api/v1/auth/logout";
+
+    return axios.post(URL_Backend);
+  },
   getAccountAPI: () => {
     const URL_Backend = "/api/v1/auth/account";
     return axios.get(URL_Backend);

@@ -8,14 +8,34 @@ import {
   SmileTwoTone,
   UserOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Menu, message } from "antd";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/context/Auth";
+import apiService from "../services/apiService";
 
 export const Header = () => {
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogOut = async () => {
+    const result = await apiService.LogoutUserAPI();
+    if (result.data) {
+      //clear data
+      localStorage.removeItem("access_token");
+      setUser({
+        emai: "",
+        phone: "",
+        password: "",
+        fullName: "",
+        role: "",
+        avatar: "",
+        id: "",
+      });
+      //redirect
+      message.success("Log out!!!");
+      navigate("/");
+    }
+  };
   const items = [
     {
       label: <Link to={"/"}>Logo</Link>,
@@ -60,7 +80,7 @@ export const Header = () => {
             icon: <SmileTwoTone />,
             children: [
               {
-                label: "Log out",
+                label: <span onClick={() => handleLogOut()}>Log out</span>,
                 key: "logout",
                 icon: <LoginOutlined />,
               },
